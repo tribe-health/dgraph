@@ -19,7 +19,7 @@ BUILD         ?= $(shell git rev-parse --short HEAD)
 BUILD_DATE    ?= $(shell git log -1 --format=%ci)
 BUILD_BRANCH  ?= $(shell git rev-parse --abbrev-ref HEAD)
 BUILD_VERSION ?= $(shell git describe --always --tags)
-BUILD_TAGS    ?=
+BUILD_TAGS    ?= debug
 GOPATH        ?= $(shell go env GOPATH)
 
 export GO111MODULE := on
