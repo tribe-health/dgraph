@@ -23,6 +23,7 @@ import (
 	"time"
 
 	"github.com/dgraph-io/badger/v3"
+	"github.com/dgraph-io/badger/v3/options"
 	"github.com/dgraph-io/dgraph/protos/pb"
 	"github.com/dgraph-io/dgraph/raftwal"
 	"github.com/dgraph-io/dgraph/x"
@@ -76,6 +77,7 @@ func setBadgerOptions(opt badger.Options) badger.Options {
 	glog.Infof("Setting Posting Dir Compression Level: %d", Config.PostingDirCompressionLevel)
 	opt.Compression = Config.PostingDirCompression
 	opt.ZSTDCompressionLevel = Config.PostingDirCompressionLevel
+	opt.ChecksumVerificationMode = options.OnTableAndBlockRead
 
 	// Settings for the data directory.
 	return opt
@@ -111,6 +113,7 @@ func (s *ServerState) initStorage() {
 			WithNumVersionsToKeep(math.MaxInt32).
 			WithBlockCacheSize(Config.PBlockCacheSize).
 			WithIndexCacheSize(Config.PIndexCacheSize)
+
 		opt = setBadgerOptions(opt)
 
 		// Print the options w/o exposing key.
